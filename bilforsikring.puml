@@ -1,0 +1,42 @@
+@startuml
+ title Kjøp av bilforsikring
+ hide footbox
+ autonumber
+ participant Klient
+ participant "Integrasjonslag\nREST API" as API
+ participant "Fagsystem\n(mock)" as Policy
+ participant "Brevtjeneste\n(mock)" as Letter
+
+ Klient -> API: POST /api/insurance-purchases\nSkjemadata
+ API -> API: Valider input
+ break Ugyldig input
+   API --> Klient: 400 Bad Request\nFeltvise valideringsfeil
+ end
+
+ API -> Policy: Opprett avtaleutkast\nKunde og forhåndsvalgt produkt
+ Policy --> API: Utkast-ID eller feil
+ break Feil eller timeout ved opprettelse
+   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
+ end
+
+ API -> Policy: Legg til kjøretøy og dekning\nUtkast-ID, registreringsnummer og bonus
+ Policy --> API: Bekreftelse eller feil
+ break Feil eller timeout ved oppdatering
+   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
+ end
+
+ API -> Policy: Aktiver avtale\nUtkast-ID
+ Policy --> API: Avtale-ID eller feil
+ break Feil eller timeout ved aktivering
+   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
+ end
+
+ API -> Letter: Bestill bekreftelsesbrev\nAvtale-ID og mottaker
+ Letter --> API: Bestilling akseptert eller feil
+ alt Bestilling akseptert
+   API --> Klient: 201 Created\nKjøpsbekreftelse med avtale-ID
+ else Feil eller timeout ved brevbestilling
+
+   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
+ end
+@enduml
