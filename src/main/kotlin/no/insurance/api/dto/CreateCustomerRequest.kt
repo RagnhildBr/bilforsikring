@@ -20,6 +20,4 @@ data class CreateCustomerRequest(
     @field:NotBlank
     @field:Email
     val email: String,
-
-    val phone: String? = null
 )

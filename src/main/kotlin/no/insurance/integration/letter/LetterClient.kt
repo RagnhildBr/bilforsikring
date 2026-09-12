@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component
 class LetterClient {
 
     fun sendConfirmationLetter(policyId: String, customerId: String) {
-        // Mock send
+        System.out.println("[MOCK] Sending confirmation letter for policy " + policyId + " to customer " + customerId)
     }
 }

@@ -40,13 +40,19 @@ class InsurancePurchaseServiceTest {
             bonus = "50%"
         )
 
-        `when`(customerCreateService.createCustomer(any())).thenReturn(CreateCustomerResponse("cust-123"))
-        `when`(policyClient.createDraft(anyString())).thenReturn("draft-1")
-        `when`(policyClient.activatePolicy(anyString())).thenReturn("policy-1")
+        val customerRequest = no.insurance.api.dto.CreateCustomerRequest(
+            firstName = "Ola",
+            lastName = "Nordmann",
+            personalNumber = "12345678901",
+            email = "ola@example.com"
+        )
+        `when`(customerCreateService.createCustomer(customerRequest)).thenReturn(CreateCustomerResponse("cust-123"))
+        `when`(policyClient.createDraft("cust-123")).thenReturn("draft-1")
+        `when`(policyClient.activatePolicy("draft-1")).thenReturn("policy-1")
 
         purchaseService.purchaseInsurance(request)
 
-        verify(customerCreateService).createCustomer(any())
+        verify(customerCreateService).createCustomer(customerRequest)
         verify(policyClient).createDraft("cust-123")
         verify(policyClient).updateDraft("draft-1", "AB12345", "50%")
         verify(policyClient).activatePolicy("draft-1")

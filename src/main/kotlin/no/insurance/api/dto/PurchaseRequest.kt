@@ -21,8 +21,6 @@ data class PurchaseRequest(
     @field:Email(message = "Ugyldig e-postformat")
     val email: String,
 
-    val phone: String? = null,
-
     @field:NotBlank(message = "Registreringsnummer må fylles ut")
     @field:Pattern(regexp = "^[a-zA-Z]{2}\\d{5}$", message = "Ugyldig registreringsnummer (f.eks. AB12345)")
     val registrationNumber: String,

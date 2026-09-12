@@ -29,10 +29,9 @@ class CustomerCreateServiceTest {
             lastName = "Nordmann",
             personalNumber = "12345678901",
             email = "ola@nordmann.no",
-            phone = "99887766"
         )
         val expectedCustomerId = "cust-123"
-        `when`(policyClient.createCustomer(any())).thenReturn(expectedCustomerId)
+        `when`(policyClient.createCustomer(request)).thenReturn(expectedCustomerId)
 
         // When
         val response = customerCreateService.createCustomer(request)

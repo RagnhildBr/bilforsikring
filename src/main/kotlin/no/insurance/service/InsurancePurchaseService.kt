@@ -21,7 +21,6 @@ class InsurancePurchaseService(
             lastName = request.lastName,
             personalNumber = request.personalNumber,
             email = request.email,
-            phone = request.phone
         )
         val customerResponse = customerCreateService.createCustomer(customerRequest)
         val customerId = customerResponse.customerId
