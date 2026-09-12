@@ -5,7 +5,7 @@ import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
 import java.nio.charset.Charset
 import java.security.MessageDigest
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
