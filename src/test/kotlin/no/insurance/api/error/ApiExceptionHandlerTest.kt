@@ -4,6 +4,7 @@ import no.insurance.api.error.exception.InsuranceBusinessException
 import no.insurance.api.error.exception.ResourceNotFoundException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -44,7 +45,7 @@ class ApiExceptionHandlerTest {
     @Test
     fun shouldHandleResourceNotFound() {
         mockMvc.perform(post("/test-not-found"))
-            .andExpect(status().isNotFound)
+            .andExpect(status().`is`(HttpStatus.NOT_FOUND.value()))
             .andExpect(jsonPath("$.error").value("Resource Not Found"))
             .andExpect(jsonPath("$.message").value("Test not found"))
     }
@@ -52,7 +53,7 @@ class ApiExceptionHandlerTest {
     @Test
     fun shouldHandleBusinessException() {
         mockMvc.perform(post("/test-business-error"))
-            .andExpect(status().isUnprocessableEntity)
+            .andExpect(status().`is`(HttpStatus.UNPROCESSABLE_ENTITY.value()))
             .andExpect(jsonPath("$.error").value("Business Error"))
             .andExpect(jsonPath("$.message").value("Test business error"))
     }
@@ -60,7 +61,7 @@ class ApiExceptionHandlerTest {
     @Test
     fun shouldHandleGeneralException() {
         mockMvc.perform(post("/test-general-error"))
-            .andExpect(status().isInternalServerError)
+            .andExpect(status().`is`(HttpStatus.INTERNAL_SERVER_ERROR.value()))
             .andExpect(jsonPath("$.error").value("Internal Server Error"))
             .andExpect(jsonPath("$.message").value("An unexpected error occurred"))
     }

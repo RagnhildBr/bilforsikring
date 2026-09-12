@@ -3,9 +3,9 @@ package no.insurance.integration.policy
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
@@ -25,7 +25,7 @@ class PolicyClient {
         var id: String
         do {
             val uuid = UUID.randomUUID().toString()
-            id = "cust-" + (uuid as java.lang.String).substring(0, 8)
+            id = "cust-" + uuid.take(8)
         } while (customers.containsKey(id))
 
         val customer = Customer(
@@ -35,10 +35,12 @@ class PolicyClient {
             personalNumber = hashedPn,
             email = email
         )
-        customers.put(id, customer)
+        customers[id] = customer
         printStorageState()
         return id
     }
+
+    fun getCustomerCount(): Int = customers.size
 
     private fun printStorageState() {
         System.out.println("--- CURRENT STORAGE STATE ---")
@@ -51,11 +53,11 @@ class PolicyClient {
 
     private fun hashPersonalNumber(personalNumber: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        val bytes = (personalNumber as java.lang.String).getBytes(Charset.forName("UTF-8"))
+        val bytes = personalNumber.toByteArray(StandardCharsets.UTF_8)
         val hashBytes = digest.digest(bytes)
         val sb = StringBuilder()
         for (b in hashBytes) {
-            sb.append(java.lang.String.format("%02x", b))
+            sb.append(String.format("%02x", b))
         }
         return sb.toString()
     }
@@ -64,7 +66,7 @@ class PolicyClient {
         var id: String
         do {
             val uuid = UUID.randomUUID().toString()
-            id = "pol-" + (uuid as java.lang.String).substring(0, 8)
+            id = "pol-" + uuid.take(8)
         } while (policies.containsKey(id))
 
         val policy = Policy(

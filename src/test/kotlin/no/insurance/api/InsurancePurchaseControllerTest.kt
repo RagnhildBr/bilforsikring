@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -33,7 +34,7 @@ class InsurancePurchaseControllerTest {
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(validJson))
-                .andExpect(status().isCreated)
+                .andExpect(status().`is`(HttpStatus.CREATED.value()))
     }
 
     @Test
@@ -43,7 +44,7 @@ class InsurancePurchaseControllerTest {
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidJson))
-                .andExpect(status().isBadRequest)
+                .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.email").exists())
     }
 
@@ -54,7 +55,7 @@ class InsurancePurchaseControllerTest {
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidJson))
-                .andExpect(status().isBadRequest)
+                .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.firstName").exists())
     }
 
@@ -65,7 +66,7 @@ class InsurancePurchaseControllerTest {
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidJson))
-                .andExpect(status().isBadRequest)
+                .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.personalNumber").exists())
     }
 
@@ -76,7 +77,7 @@ class InsurancePurchaseControllerTest {
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidJson))
-                .andExpect(status().isBadRequest)
+                .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.registrationNumber").exists())
     }
 }
