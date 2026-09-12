@@ -1,6 +1,8 @@
 package no.insurance.integration.policy
 
 import no.insurance.api.dto.CreateCustomerRequest
+import no.insurance.api.error.exception.InsuranceBusinessException
+import no.insurance.api.error.exception.ResourceNotFoundException
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
@@ -35,20 +37,20 @@ class PolicyClient {
     }
 
     fun updateDraft(draftId: String, registrationNumber: String, bonus: String?) {
-        val policy = policies.get(draftId) ?: throw IllegalArgumentException("Draft not found: $draftId")
+        val policy = policies.get(draftId) ?: throw ResourceNotFoundException("Draft not found: " + draftId)
         policy.registrationNumber = registrationNumber
         policy.bonus = bonus
     }
 
     fun activatePolicy(draftId: String): String {
-        val policy = policies.get(draftId) ?: throw IllegalArgumentException("Draft not found: $draftId")
+        val policy = policies.get(draftId) ?: throw ResourceNotFoundException("Draft not found: " + draftId)
         val uuid = java.util.UUID.randomUUID().toString()
         val policyId = (uuid as java.lang.String).substring(0, 8)
         
         val activePolicy = Policy(
             id = policyId,
             customerId = policy.customerId,
-            registrationNumber = policy.registrationNumber ?: throw IllegalStateException("Reg number missing in draft"),
+            registrationNumber = policy.registrationNumber ?: throw InsuranceBusinessException("Registration number missing in draft"),
             bonus = policy.bonus,
             status = "ACTIVE"
         )
