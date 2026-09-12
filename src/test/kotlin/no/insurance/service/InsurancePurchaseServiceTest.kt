@@ -1,13 +1,12 @@
 package no.insurance.service
 
+import no.insurance.api.dto.CreateCustomerRequest
 import no.insurance.api.dto.CreateCustomerResponse
 import no.insurance.api.dto.PurchaseRequest
 import no.insurance.integration.letter.LetterClient
 import no.insurance.integration.policy.PolicyClient
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
@@ -40,7 +39,7 @@ class InsurancePurchaseServiceTest {
             bonus = "50%"
         )
 
-        val customerRequest = no.insurance.api.dto.CreateCustomerRequest(
+        val customerRequest = CreateCustomerRequest(
             firstName = "Ola",
             lastName = "Nordmann",
             personalNumber = "12345678901",

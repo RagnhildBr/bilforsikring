@@ -5,16 +5,14 @@ import no.insurance.api.dto.PurchaseResponse
 import no.insurance.service.InsurancePurchaseService
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @WebMvcTest(InsurancePurchaseController::class)
 class InsurancePurchaseControllerTest {
@@ -30,7 +28,7 @@ class InsurancePurchaseControllerTest {
         val validJson = "{\"firstName\":\"Ola\",\"lastName\":\"Nordmann\",\"personalNumber\":\"12345678901\",\"email\":\"ola@nordmann.no\",\"registrationNumber\":\"AB12345\",\"bonus\":\"50%\"}"
 
         val expectedResponse = PurchaseResponse("123", "SUCCESS", "OK")
-        given(purchaseService.purchaseInsurance(no.insurance.api.dto.PurchaseRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no", "AB12345", "50%"))).willReturn(expectedResponse)
+        given(purchaseService.purchaseInsurance(PurchaseRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no", "AB12345", "50%"))).willReturn(expectedResponse)
 
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)

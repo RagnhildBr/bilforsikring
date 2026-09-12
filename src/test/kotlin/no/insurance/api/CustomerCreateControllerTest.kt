@@ -1,5 +1,6 @@
 package no.insurance.api
 
+import no.insurance.api.dto.CreateCustomerRequest
 import no.insurance.api.dto.CreateCustomerResponse
 import no.insurance.service.CustomerCreateService
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ class CustomerCreateControllerTest {
         val validJson = "{\"firstName\":\"Ola\",\"lastName\":\"Nordmann\",\"personalNumber\":\"12345678901\",\"email\":\"ola@nordmann.no\"}"
 
         val expectedResponse = CreateCustomerResponse("cust-123", "Kunde opprettet")
-        given(customerCreateService.createCustomer(no.insurance.api.dto.CreateCustomerRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no"))).willReturn(expectedResponse)
+        given(customerCreateService.createCustomer(CreateCustomerRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no"))).willReturn(expectedResponse)
 
         mockMvc.perform(post("/api/customers")
                 .contentType(MediaType.APPLICATION_JSON)

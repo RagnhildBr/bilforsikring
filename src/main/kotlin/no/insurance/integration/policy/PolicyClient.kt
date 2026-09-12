@@ -6,6 +6,7 @@ import no.insurance.api.error.exception.ResourceNotFoundException
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
@@ -15,7 +16,7 @@ class PolicyClient {
     private val policies = ConcurrentHashMap<String, Policy>()
 
     fun createCustomer(request: CreateCustomerRequest): String {
-        val uuid = java.util.UUID.randomUUID().toString()
+        val uuid = UUID.randomUUID().toString()
         val id = "cust-" + (uuid as java.lang.String).substring(0, 8)
         val customer = Customer(
             id = id,
@@ -29,7 +30,7 @@ class PolicyClient {
     }
 
     fun createDraft(customerId: String): String {
-        val uuid = java.util.UUID.randomUUID().toString()
+        val uuid = UUID.randomUUID().toString()
         val id = "draft-" + (uuid as java.lang.String).substring(0, 8)
         val policy = Policy(id = id, customerId = customerId, status = "DRAFT")
         policies.put(id, policy)
@@ -44,7 +45,7 @@ class PolicyClient {
 
     fun activatePolicy(draftId: String): String {
         val policy = policies.get(draftId) ?: throw ResourceNotFoundException("Draft not found: " + draftId)
-        val uuid = java.util.UUID.randomUUID().toString()
+        val uuid = UUID.randomUUID().toString()
         val policyId = (uuid as java.lang.String).substring(0, 8)
         
         val activePolicy = Policy(
