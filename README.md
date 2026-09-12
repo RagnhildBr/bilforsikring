@@ -36,7 +36,6 @@ For å kjøre alle enhetstester og integrasjonstester:
 Løsningen tilbyr følgende endepunkter:
 
 - `POST /api/insurance-purchases`: Hovedendepunkt for gjennomføring av et komplett forsikringskjøp.
-- `POST /api/customers`: Endepunkt for å opprette en kunde manuelt.
 
 ### Eksempel på forespørsel (Kjøp)
 ```json
@@ -53,7 +52,7 @@ Løsningen tilbyr følgende endepunkter:
 ## Arkitektur og Design
 
 ### Frontend
-- Moderne og responsivt design basert på tilsendte skisser.
+- Design basert på tilsendte skisser.
 - Bruker standard HTML-validering supplert med JavaScript for API-kommunikasjon.
 - Dynamisk feilhåndtering som viser valideringsfeil fra backend.
 
@@ -66,6 +65,5 @@ Løsningen tilbyr følgende endepunkter:
 ## Avgrensninger og antakelser
 
 - Løsningen bruker in-memory lagring. Data går tapt når applikasjonen stoppes.
-- Forsikringsproduktet er foreløpig forenklet til en standard bilforsikring.
-- Prisberegning og betaling er utenfor omfanget av denne oppgaven.
+- Forsikringsproduktet er forenklet til en standard bilforsikring.
 - Systemet simulerer utsendelse av bekreftelsesbrev via konsolllogging.
