@@ -1,25 +1,108 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="nb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kjøp Bilforsikring</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="app">
-        <h1>Kjøp Bilforsikring</h1>
-        <form id="purchaseForm">
-            <input type="text" id="firstName" placeholder="Fornavn" required>
-            <input type="text" id="lastName" placeholder="Etternavn" required>
-            <input type="text" id="personalNumber" placeholder="Fødselsnummer" required>
-            <input type="text" id="email" placeholder="E-post" required>
-            <input type="text" id="phone" placeholder="Telefon">
-            <input type="text" id="registrationNumber" placeholder="Registreringsnummer" required>
-            <input type="text" id="bonus" placeholder="Bonus">
-            <button type="submit">Kjøp</button>
-        </form>
-        <div id="result"></div>
-    </div>
-    <script src="js/app.js"></script>
+<main id="app">
+    <h1>Kjøp Bilforsikring</h1>
+
+    <p class="intro">
+        Det er fire forskjellige forsikringer å velge mellom.
+        Ansvarsforsikring er lovpålagt om kjøretøyet er registrert og
+        skal brukes på veien. I tillegg kan du utvide forsikringen
+        avhengig av hvor gammel bilen din er og hvordan du bruker den.
+    </p>
+
+    <form id="purchaseForm">
+        <div class="field">
+            <label for="registrationNumber">Bilens registreringsnummer</label>
+            <input
+                    type="text"
+                    id="registrationNumber"
+                    name="registrationNumber"
+                    placeholder="E.g. AB 12345"
+                    required
+            >
+        </div>
+
+        <div class="field">
+            <label for="bonus">Din bonus</label>
+            <select id="bonus" name="bonus" required>
+                <option value="" disabled selected>Velg bonus</option>
+                <option value="0">0 %</option>
+                <option value="20">20 %</option>
+                <option value="40">40 %</option>
+                <option value="60">60 %</option>
+                <option value="70">70 %</option>
+                <option value="75">75 %</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="personalNumber">Fødselsnummer</label>
+            <input
+                    type="text"
+                    id="personalNumber"
+                    name="personalNumber"
+                    inputmode="numeric"
+                    pattern="[0-9]{11}"
+                    maxlength="11"
+                    required
+            >
+        </div>
+
+        <div class="name-fields">
+            <div class="field">
+                <label for="firstName">Fornavn</label>
+                <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        autocomplete="given-name"
+                        required
+                >
+            </div>
+
+            <div class="field">
+                <label for="lastName">Etternavn</label>
+                <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        autocomplete="family-name"
+                        required
+                >
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="email">E-post</label>
+            <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    aria-describedby="emailError"
+                    required
+            >
+            <span id="emailError" class="field-error">
+                Skriv en gyldig e-postadresse
+            </span>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="button-primary">Kjøp</button>
+            <button type="reset" class="button-secondary">Avbryt</button>
+        </div>
+    </form>
+
+    <div id="result" role="status" aria-live="polite"></div>
+</main>
+
+<script src="js/app.js"></script>
 </body>
 </html>

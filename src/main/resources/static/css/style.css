@@ -1,16 +1,202 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "Profilfont";
+    src: url("../fonts/Profilfont-Regular-Web.woff2") format("woff2"),
+    url("../fonts/Profilfont-Regular-Web.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Profilfont";
+    src: url("../fonts/Profilfont-Bold-Web.woff2") format("woff2"),
+    url("../fonts/Profilfont-Bold-Web.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
-    font-family: sans-serif;
-    padding: 20px;
+    margin: 0;
+    background: #fff;
+    color: #111;
+    font-family: "Profilfont", Arial, sans-serif;
+    font-weight: 400;
 }
+
 #app {
-    max-width: 400px;
+    max-width: 980px;
     margin: 0 auto;
+    padding: 72px 80px;
 }
-form {
+
+h1 {
+    margin: 0 0 32px;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.intro {
+    max-width: 760px;
+    margin: 0 0 56px;
+    font-size: 24px;
+    line-height: 1.4;
+    font-weight: 300;
+}
+
+.field {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 32px;
 }
-input, button {
-    padding: 10px;
+
+label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+input,
+select {
+    width: 100%;
+    max-width: 320px;
+    min-height: 48px;
+    padding: 10px 12px;
+    border: 1px solid #767676;
+    border-radius: 4px;
+    background: #fff;
+    color: #111;
+    font: inherit;
+    font-size: 18px;
+}
+
+input::placeholder {
+    color: #777;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='7 10 12 15 17 10'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+select:has(option[value=""]:checked) {
+    color: #777;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+    outline: 2px solid #2163a6;
+    outline-offset: 3px;
+}
+
+.name-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 320px));
+    gap: 48px;
+}
+
+.helper-text {
+    font-size: 14px;
+    color: #767676;
+    margin-top: 4px;
+}
+
+.field-error {
+    display: none;
+    color: #d13b3b;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+input.invalid,
+select.invalid,
+input:user-invalid,
+select:user-invalid {
+    border-color: #d13b3b;
+}
+
+input.invalid + .field-error,
+select.invalid + .field-error,
+input:user-invalid + .field-error,
+select:user-invalid + .field-error {
+    display: block;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 8px;
+}
+
+button {
+    min-width: 94px;
+    min-height: 44px;
+    padding: 10px 32px;
+    border: 1px solid #111;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.button-primary {
+    background: #000;
+    color: #fff;
+}
+
+.button-secondary {
+    background: #fff;
+    color: #111;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+#result:not(:empty) {
+    margin-top: 24px;
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    #app {
+        padding: 40px 24px;
+    }
+
+    .intro {
+        margin-bottom: 40px;
+        font-size: 18px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    .name-fields {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    input,
+    select {
+        max-width: none;
+    }
 }
