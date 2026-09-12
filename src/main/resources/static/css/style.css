@@ -137,6 +137,10 @@ select:user-invalid + .field-error {
     display: block;
 }
 
+.field-error:not(:empty) {
+    display: block;
+}
+
 .actions {
     display: flex;
     flex-wrap: wrap;
