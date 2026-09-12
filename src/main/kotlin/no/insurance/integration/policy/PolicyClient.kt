@@ -15,8 +15,12 @@ class PolicyClient {
     private val policies = ConcurrentHashMap<String, Policy>()
 
     fun createCustomer(firstName: String, lastName: String, personalNumber: String, email: String): String {
-        val uuid = UUID.randomUUID().toString()
-        val id = "cust-" + (uuid as java.lang.String).substring(0, 8)
+        var id: String
+        do {
+            val uuid = UUID.randomUUID().toString()
+            id = "cust-" + (uuid as java.lang.String).substring(0, 8)
+        } while (customers.containsKey(id))
+
         val customer = Customer(
             id = id,
             firstName = firstName,
@@ -50,8 +54,12 @@ class PolicyClient {
     }
 
     fun createPolicy(customerId: String, registrationNumber: String, bonus: Int?, status: String = "ACTIVE"): String {
-        val uuid = UUID.randomUUID().toString()
-        val id = "pol-" + (uuid as java.lang.String).substring(0, 8)
+        var id: String
+        do {
+            val uuid = UUID.randomUUID().toString()
+            id = "pol-" + (uuid as java.lang.String).substring(0, 8)
+        } while (policies.containsKey(id))
+
         val policy = Policy(
             id = id,
             customerId = customerId,
