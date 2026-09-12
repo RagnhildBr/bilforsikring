@@ -16,7 +16,6 @@ validering og håndtering av svar fra API-et.
 - Forsikringsproduktet er forhåndsvalgt.
 - Alle feltene i skissen er obligatoriske.
 - Prisberegning, betaling og innlogging er utenfor omfanget.
-- Kjøpet regnes som vellykket når avtalen er aktivert og
-  brevtjenesten har akseptert bestillingen av bekreftelsesbrevet.
+- Kjøpet er vellykket når avtalen er opprettet, brevtjenesten har bekreftet vellykket utsendelse, og statusen «avtale sendt» er lagret i fagsystemet.
 - Klienten sender én forespørsel og mottar enten en
   kjøpsbekreftelse med avtale-ID eller en feilmelding.

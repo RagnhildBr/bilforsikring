@@ -3,40 +3,33 @@
  hide footbox
  autonumber
  participant Klient
- participant "Integrasjonslag\nREST API" as API
- participant "Fagsystem\n(mock)" as Policy
- participant "Brevtjeneste\n(mock)" as Letter
+ participant Integrasjonslag as API
+ participant "Fagsystem / Database" as Policy
+ participant Brevtjeneste as Letter
 
- Klient -> API: POST /api/insurance-purchases\nSkjemadata
- API -> API: Valider input
- break Ugyldig input
-   API --> Klient: 400 Bad Request\nFeltvise valideringsfeil
- end
+ Klient -> API: Opprett avtale\nSkjemadata
+ activate API
+ API -> Policy: Opprett kunde\nKundeopplysninger
+ activate Policy
+ Policy --> API: Kundenummer
+ deactivate Policy
 
- API -> Policy: Opprett avtaleutkast\nKunde og forhåndsvalgt produkt
- Policy --> API: Utkast-ID eller feil
- break Feil eller timeout ved opprettelse
-   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
- end
+ API -> Policy: Opprett avtale\nKundenummer og forsikringsopplysninger
+ activate Policy
+ Policy --> API: Avtalenummer
+ deactivate Policy
 
- API -> Policy: Legg til kjøretøy og dekning\nUtkast-ID, registreringsnummer og bonus
- Policy --> API: Bekreftelse eller feil
- break Feil eller timeout ved oppdatering
-   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
- end
+ API -> Letter: Send avtale til kunde\nAvtalenummer og mottakeropplysninger
+ activate Letter
+ Letter --> API: Status på utsendelse
+ deactivate Letter
 
- API -> Policy: Aktiver avtale\nUtkast-ID
- Policy --> API: Avtale-ID eller feil
- break Feil eller timeout ved aktivering
-   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
- end
+ API -> Policy: Oppdater status til "avtale sendt"\nAvtalenummer
+ activate Policy
+ Policy --> API: Avtalestatus
+ deactivate Policy
 
- API -> Letter: Bestill bekreftelsesbrev\nAvtale-ID og mottaker
- Letter --> API: Bestilling akseptert eller feil
- alt Bestilling akseptert
-   API --> Klient: 201 Created\nKjøpsbekreftelse med avtale-ID
- else Feil eller timeout ved brevbestilling
+ API --> Klient: Avtalenummer og status
+ deactivate API
 
-   API --> Klient: ERROR\nKjøpet kan ikke bekreftes
- end
 @enduml
