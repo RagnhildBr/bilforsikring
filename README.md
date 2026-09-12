@@ -62,7 +62,7 @@ Løsningen tilbyr følgende endepunkter:
 - **Integrasjons-lag:** Simulerer eksterne systemer (Policy-system og Brev-tjeneste) ved bruk av in-memory lagring (`ConcurrentHashMap`) og mock-implementasjoner.
 - **Feilhåndtering:** Sentralisert `ApiExceptionHandler` som mapper unntak til strukturerte JSON-svar med korrekte HTTP-statuskoder.
 
-## Avgrensninger og antakelser
+## Avgrensninger
 
 - Løsningen bruker in-memory lagring. Data går tapt når applikasjonen stoppes.
 - Forsikringsproduktet er forenklet til en standard bilforsikring.
