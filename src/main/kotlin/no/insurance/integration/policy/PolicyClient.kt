@@ -6,8 +6,10 @@ import no.insurance.api.error.exception.ResourceNotFoundException
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
+import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.nio.charset.StandardCharsets
 
 @Component
 class PolicyClient {
@@ -22,11 +24,22 @@ class PolicyClient {
             id = id,
             firstName = request.firstName,
             lastName = request.lastName,
-            personalNumber = request.personalNumber,
+            personalNumber = hashPersonalNumber(request.personalNumber),
             email = request.email
         )
         customers.put(id, customer)
         return id
+    }
+
+    private fun hashPersonalNumber(personalNumber: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val bytes = (personalNumber as java.lang.String).getBytes(java.nio.charset.Charset.forName("UTF-8"))
+        val hashBytes = digest.digest(bytes)
+        val sb = StringBuilder()
+        for (b in hashBytes) {
+            sb.append(java.lang.String.format("%02x", b))
+        }
+        return sb.toString()
     }
 
     fun createDraft(customerId: String): String {

@@ -35,6 +35,6 @@ class InsurancePurchaseService(
         // 4. Send confirmation letter
         letterClient.sendConfirmationLetter(policyId, customerId)
 
-        return PurchaseResponse(policyId, "SUCCESS", "Kjøp fullført for kunde $customerId")
+        return PurchaseResponse(policyId, "SUCCESS", "Kjøp fullført")
     }
 }
