@@ -25,10 +25,10 @@ class InsurancePurchaseControllerTest {
 
     @Test
     fun shouldReturnCreatedForValidRequest() {
-        val validJson = "{\"firstName\":\"Ola\",\"lastName\":\"Nordmann\",\"personalNumber\":\"12345678901\",\"email\":\"ola@nordmann.no\",\"registrationNumber\":\"AB12345\",\"bonus\":\"50%\"}"
+        val validJson = "{\"firstName\":\"Ola\",\"lastName\":\"Nordmann\",\"personalNumber\":\"12345678901\",\"email\":\"ola@nordmann.no\",\"registrationNumber\":\"AB12345\",\"bonus\":50}"
 
         val expectedResponse = PurchaseResponse("123", "SUCCESS", "OK")
-        given(purchaseService.purchaseInsurance(PurchaseRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no", "AB12345", "50%"))).willReturn(expectedResponse)
+        given(purchaseService.purchaseInsurance(PurchaseRequest("Ola", "Nordmann", "12345678901", "ola@nordmann.no", "AB12345", 50))).willReturn(expectedResponse)
 
         mockMvc.perform(post("/api/insurance-purchases")
                 .contentType(MediaType.APPLICATION_JSON)

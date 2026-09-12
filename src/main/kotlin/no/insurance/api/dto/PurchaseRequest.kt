@@ -25,5 +25,5 @@ data class PurchaseRequest(
     @field:Pattern(regexp = "^[a-zA-Z]{2}\\d{5}$", message = "Ugyldig registreringsnummer (f.eks. AB12345)")
     val registrationNumber: String,
 
-    val bonus: String? = null
+    val bonus: Int? = null
 )

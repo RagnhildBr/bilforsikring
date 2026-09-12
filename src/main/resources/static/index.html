@@ -24,13 +24,14 @@
                     type="text"
                     id="registrationNumber"
                     name="registrationNumber"
-                    placeholder="E.g. AB 12345"
+                    placeholder="F.eks. AB 12345"
                     required
             >
             <span class="field-error"></span>
         </div>
 
         <div class="field">
+            <!-- Manglende domenekunnskap ift hvordan dette skal håndteres -->
             <label for="bonus">Din bonus</label>
             <select id="bonus" name="bonus" required>
                 <option value="" disabled selected>Velg bonus</option>
@@ -94,9 +95,7 @@
                     aria-describedby="emailError"
                     required
             >
-            <span id="emailError" class="field-error">
-                Skriv en gyldig e-postadresse
-            </span>
+            <span id="emailError" class="field-error"></span>
         </div>
 
         <div class="actions">

@@ -15,7 +15,7 @@ document.getElementById('purchaseForm').addEventListener('submit', async (e) => 
         personalNumber: document.getElementById('personalNumber').value,
         email: document.getElementById('email').value,
         registrationNumber: document.getElementById('registrationNumber').value.replace(/\s/g, ''),
-        bonus: document.getElementById('bonus').value ? document.getElementById('bonus').value + '%' : null
+        bonus: document.getElementById('bonus').value ? parseInt(document.getElementById('bonus').value, 10) : null
     };
 
     try {
@@ -31,7 +31,7 @@ document.getElementById('purchaseForm').addEventListener('submit', async (e) => 
                 <div style="background: #e6f4ea; border: 1px solid #1e7e34; padding: 24px; border-radius: 4px; margin-top: 32px;">
                     <h3 style="margin-top: 0; color: #1e7e34; font-size: 24px;">Takk for ditt kjøp!</h3>
                     <p style="font-size: 18px;">Din bilforsikring er nå aktivert.</p>
-                    <p style="margin-bottom: 0;"><strong>Policy ID:</strong> ${result.policyId}</p>
+                    <p style="margin-bottom: 0;"><strong>Polisenummer:</strong> ${result.policyId}</p>
                 </div>
             `;
             form.reset();
@@ -65,6 +65,11 @@ function showFieldErrors(errors) {
         const input = document.getElementById(field);
         if (input) {
             input.classList.add('invalid');
+            
+            // Customize browser validation message
+            input.setCustomValidity(message);
+            input.reportValidity();
+
             // Check if there is already a field-error span, or create one if needed
             let errorSpan = input.parentElement.querySelector('.field-error');
             if (errorSpan) {
@@ -75,11 +80,11 @@ function showFieldErrors(errors) {
 }
 
 function clearErrors() {
-    document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+    document.querySelectorAll('input, select').forEach(el => {
+        el.classList.remove('invalid');
+        el.setCustomValidity('');
+    });
     document.querySelectorAll('.field-error').forEach(el => {
         el.textContent = '';
-        if (el.id === 'emailError') {
-            el.textContent = 'Skriv en gyldig e-postadresse';
-        }
     });
 }

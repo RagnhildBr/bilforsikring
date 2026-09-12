@@ -1,15 +1,12 @@
 package no.insurance.integration.policy
 
-import no.insurance.api.dto.CreateCustomerRequest
-import no.insurance.api.error.exception.InsuranceBusinessException
-import no.insurance.api.error.exception.ResourceNotFoundException
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
+import java.nio.charset.Charset
 import java.security.MessageDigest
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import java.nio.charset.StandardCharsets
 
 @Component
 class PolicyClient {
@@ -17,23 +14,33 @@ class PolicyClient {
     private val customers = ConcurrentHashMap<String, Customer>()
     private val policies = ConcurrentHashMap<String, Policy>()
 
-    fun createCustomer(request: CreateCustomerRequest): String {
+    fun createCustomer(firstName: String, lastName: String, personalNumber: String, email: String): String {
         val uuid = UUID.randomUUID().toString()
         val id = "cust-" + (uuid as java.lang.String).substring(0, 8)
         val customer = Customer(
             id = id,
-            firstName = request.firstName,
-            lastName = request.lastName,
-            personalNumber = hashPersonalNumber(request.personalNumber),
-            email = request.email
+            firstName = firstName,
+            lastName = lastName,
+            personalNumber = hashPersonalNumber(personalNumber),
+            email = email
         )
         customers.put(id, customer)
+        printStorageState()
         return id
+    }
+
+    private fun printStorageState() {
+        System.out.println("--- CURRENT STORAGE STATE ---")
+        System.out.println("Customers (${customers.size}):")
+        customers.values.forEach { System.out.println("  $it") }
+        System.out.println("Policies (${policies.size}):")
+        policies.values.forEach { System.out.println("  $it") }
+        System.out.println("-----------------------------")
     }
 
     private fun hashPersonalNumber(personalNumber: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        val bytes = (personalNumber as java.lang.String).getBytes(java.nio.charset.Charset.forName("UTF-8"))
+        val bytes = (personalNumber as java.lang.String).getBytes(Charset.forName("UTF-8"))
         val hashBytes = digest.digest(bytes)
         val sb = StringBuilder()
         for (b in hashBytes) {
@@ -42,36 +49,18 @@ class PolicyClient {
         return sb.toString()
     }
 
-    fun createDraft(customerId: String): String {
+    fun createPolicy(customerId: String, registrationNumber: String, bonus: Int?, status: String = "ACTIVE"): String {
         val uuid = UUID.randomUUID().toString()
-        val id = "draft-" + (uuid as java.lang.String).substring(0, 8)
-        val policy = Policy(id = id, customerId = customerId, status = "DRAFT")
-        policies.put(id, policy)
-        return id
-    }
-
-    fun updateDraft(draftId: String, registrationNumber: String, bonus: String?) {
-        val policy = policies.get(draftId) ?: throw ResourceNotFoundException("Draft not found: " + draftId)
-        policy.registrationNumber = registrationNumber
-        policy.bonus = bonus
-    }
-
-    fun activatePolicy(draftId: String): String {
-        val policy = policies.get(draftId) ?: throw ResourceNotFoundException("Draft not found: " + draftId)
-        val uuid = UUID.randomUUID().toString()
-        val policyId = (uuid as java.lang.String).substring(0, 8)
-        
-        val activePolicy = Policy(
-            id = policyId,
-            customerId = policy.customerId,
-            registrationNumber = policy.registrationNumber ?: throw InsuranceBusinessException("Registration number missing in draft"),
-            bonus = policy.bonus,
-            status = "ACTIVE"
+        val id = "pol-" + (uuid as java.lang.String).substring(0, 8)
+        val policy = Policy(
+            id = id,
+            customerId = customerId,
+            status = status,
+            registrationNumber = registrationNumber,
+            bonus = bonus ?: 0
         )
-        
-        policies.put(policyId, activePolicy)
-        policy.status = "ACTIVATED"
-        
-        return policyId
+        policies.put(id, policy)
+        printStorageState()
+        return id
     }
 }
