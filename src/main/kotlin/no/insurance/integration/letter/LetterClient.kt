@@ -1,4 +1,4 @@
-package no.ragnhild.insurance.integration.letter
+package no.insurance.integration.letter
 
 import org.springframework.stereotype.Component
 

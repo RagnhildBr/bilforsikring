@@ -1,4 +1,4 @@
-package no.ragnhild.insurance.domain
+package no.insurance.domain
 
 data class InsuranceProduct(
     val id: String,

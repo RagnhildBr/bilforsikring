@@ -1,4 +1,4 @@
-package no.ragnhild.insurance.api.dto
+package no.insurance.api.dto
 
 data class PurchaseResponse(
     val policyId: String? = null,

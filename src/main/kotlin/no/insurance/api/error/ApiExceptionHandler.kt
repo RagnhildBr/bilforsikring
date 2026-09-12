@@ -1,4 +1,4 @@
-package no.ragnhild.insurance.api.error
+package no.insurance.api.error
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException

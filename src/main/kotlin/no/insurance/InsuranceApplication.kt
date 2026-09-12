@@ -1,4 +1,4 @@
-package no.ragnhild.insurance
+package no.insurance
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

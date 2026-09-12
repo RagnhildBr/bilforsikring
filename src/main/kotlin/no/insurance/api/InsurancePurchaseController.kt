@@ -1,9 +1,9 @@
-package no.ragnhild.insurance.api
+package no.insurance.api
 
 import jakarta.validation.Valid
-import no.ragnhild.insurance.api.dto.PurchaseRequest
-import no.ragnhild.insurance.api.dto.PurchaseResponse
-import no.ragnhild.insurance.service.InsurancePurchaseService
+import no.insurance.api.dto.PurchaseRequest
+import no.insurance.api.dto.PurchaseResponse
+import no.insurance.service.InsurancePurchaseService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 

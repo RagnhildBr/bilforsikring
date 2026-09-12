@@ -1,7 +1,11 @@
 document.getElementById('purchaseForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const request = {
-        customerId: document.getElementById('customerId').value,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        personalNumber: document.getElementById('personalNumber').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
         registrationNumber: document.getElementById('registrationNumber').value,
         bonus: document.getElementById('bonus').value
     };

@@ -1,9 +1,14 @@
-package no.ragnhild.insurance.integration.policy
+package no.insurance.integration.policy
 
+import no.insurance.api.dto.CreateCustomerRequest
 import org.springframework.stereotype.Component
 
 @Component
 class PolicyClient {
+
+    fun createCustomer(request: CreateCustomerRequest): String {
+        return "cust-123"
+    }
 
     fun createDraft(customerId: String): String {
         return "draft-123"

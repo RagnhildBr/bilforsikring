@@ -1,10 +1,12 @@
-package no.ragnhild.insurance.service
+package no.insurance.service
 
-import no.ragnhild.insurance.api.dto.PurchaseRequest
-import no.ragnhild.insurance.integration.letter.LetterClient
-import no.ragnhild.insurance.integration.policy.PolicyClient
+import no.insurance.api.dto.CreateCustomerResponse
+import no.insurance.api.dto.PurchaseRequest
+import no.insurance.integration.letter.LetterClient
+import no.insurance.integration.policy.PolicyClient
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -21,25 +23,33 @@ class InsurancePurchaseServiceTest {
     @Mock
     private lateinit var letterClient: LetterClient
 
+    @Mock
+    private lateinit var customerCreateService: CustomerCreateService
+
     @InjectMocks
     private lateinit var purchaseService: InsurancePurchaseService
 
     @Test
     fun testPurchaseFlow() {
         val request = PurchaseRequest(
-            customerId = "123",
+            firstName = "Ola",
+            lastName = "Nordmann",
+            personalNumber = "12345678901",
+            email = "ola@example.com",
             registrationNumber = "AB12345",
             bonus = "50%"
         )
 
+        `when`(customerCreateService.createCustomer(any())).thenReturn(CreateCustomerResponse("cust-123"))
         `when`(policyClient.createDraft(anyString())).thenReturn("draft-1")
         `when`(policyClient.activatePolicy(anyString())).thenReturn("policy-1")
 
         purchaseService.purchaseInsurance(request)
 
-        verify(policyClient).createDraft("123")
+        verify(customerCreateService).createCustomer(any())
+        verify(policyClient).createDraft("cust-123")
         verify(policyClient).updateDraft("draft-1", "AB12345", "50%")
         verify(policyClient).activatePolicy("draft-1")
-        verify(letterClient).sendConfirmationLetter("policy-1", "123")
+        verify(letterClient).sendConfirmationLetter("policy-1", "cust-123")
     }
 }
