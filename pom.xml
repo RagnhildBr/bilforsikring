@@ -15,7 +15,7 @@
 	<description>Car Insurance Purchase Application</description>
 	<properties>
 		<java.version>17</java.version>
-		<kotlin.version>2.4.0</kotlin.version>
+		<kotlin.version>2.2.0</kotlin.version>
 	</properties>
 	<dependencies>
 		<dependency>
