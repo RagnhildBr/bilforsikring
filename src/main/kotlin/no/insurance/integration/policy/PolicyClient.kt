@@ -15,6 +15,13 @@ class PolicyClient {
     private val policies = ConcurrentHashMap<String, Policy>()
 
     fun createCustomer(firstName: String, lastName: String, personalNumber: String, email: String): String {
+        val hashedPn = hashPersonalNumber(personalNumber)
+        val existingCustomer = customers.values.find { it.personalNumber == hashedPn }
+        
+        if (existingCustomer != null) {
+            return existingCustomer.id
+        }
+
         var id: String
         do {
             val uuid = UUID.randomUUID().toString()
@@ -25,7 +32,7 @@ class PolicyClient {
             id = id,
             firstName = firstName,
             lastName = lastName,
-            personalNumber = hashPersonalNumber(personalNumber),
+            personalNumber = hashedPn,
             email = email
         )
         customers.put(id, customer)
