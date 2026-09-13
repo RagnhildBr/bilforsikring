@@ -5,5 +5,11 @@ data class Policy(
     val customerId: String,
     var registrationNumber: String,
     var bonus: Int,
-    var status: String = "DRAFT"
+    var status: AgreementStatus = AgreementStatus.DRAFT
 )
+
+enum class AgreementStatus {
+    DRAFT,
+    ACTIVE,
+    AGREEMENT_SENT
+}

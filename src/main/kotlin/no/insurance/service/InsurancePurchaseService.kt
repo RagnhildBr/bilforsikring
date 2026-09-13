@@ -22,11 +22,11 @@ class InsurancePurchaseService(
         )
 
         // 2. Create policy
-        val policyId = policyClient.createPolicy(customerId, request.registrationNumber, request.bonus)
+        val policy = policyClient.createPolicy(customerId, request.registrationNumber, request.bonus)
 
         // 3. Send confirmation letter
-        letterClient.sendConfirmationLetter(policyId, customerId)
+        letterClient.sendConfirmationLetter(policy, customerId)
 
-        return PurchaseResponse(policyId, "SUCCESS", "Kjøp fullført")
+        return PurchaseResponse(policy.id, "SUCCESS", "Kjøp fullført")
     }
 }

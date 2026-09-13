@@ -1,5 +1,6 @@
 package no.insurance.integration.policy
 
+import no.insurance.domain.AgreementStatus
 import no.insurance.domain.Customer
 import no.insurance.domain.Policy
 import org.springframework.stereotype.Component
@@ -62,7 +63,7 @@ class PolicyClient {
         return sb.toString()
     }
 
-    fun createPolicy(customerId: String, registrationNumber: String, bonus: Int?, status: String = "ACTIVE"): String {
+    fun createPolicy(customerId: String, registrationNumber: String, bonus: Int?, status: AgreementStatus = AgreementStatus.ACTIVE): Policy {
         var id: String
         do {
             val uuid = UUID.randomUUID().toString()
@@ -78,6 +79,6 @@ class PolicyClient {
         )
         policies.put(id, policy)
         printStorageState()
-        return id
+        return policy
     }
 }
