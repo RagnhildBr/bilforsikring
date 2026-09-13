@@ -4,21 +4,22 @@ En forenklet løsning for kjøp av bilforsikring. Løsningen er utviklet som en 
 
 ## Teknologi
 
-- **Backend:** Kotlin 2.0+, Spring Boot 4.1.1
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript
-- **Byggeverktøy:** Maven (inkludert wrapper)
-- **Testing:** JUnit 5, Mockito
+- **Backend:** Kotlin 2.2.0, Spring Boot 4.1.1
+- **Java-målversjon:** 17
+- **Frontend:** HTML, CSS og vanilla JavaScript
+- **Byggeverktøy:** Maven med Maven Wrapper
+- **Testing:** JUnit og Mockito
 
 ## Slik kjører du prosjektet
 
 ### Forutsetninger
-- Java 17 eller nyere installert.
+- JDK 26 og Maven installert.
+- Prosjektet er konfigurert med Java 17 som målversjon.
 
 ### Starte applikasjonen
-Bruk Maven-wrapperen for å starte applikasjonen:
 
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 Når applikasjonen har startet, kan du åpne forsikringsskjemaet i nettleseren på:
@@ -28,7 +29,7 @@ Når applikasjonen har startet, kan du åpne forsikringsskjemaet i nettleseren p
 For å kjøre alle enhetstester og integrasjonstester:
 
 ```bash
-./mvnw test
+mvn test
 ```
 
 ## API-oversikt
@@ -45,7 +46,7 @@ Løsningen tilbyr følgende endepunkter:
   "personalNumber": "12345678901",
   "email": "ola@nordmann.no",
   "registrationNumber": "AB12345",
-  "bonus": "50%"
+  "bonus": "50"
 }
 ```
 
