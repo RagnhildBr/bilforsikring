@@ -80,4 +80,30 @@ class InsurancePurchaseControllerTest {
                 .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.registrationNumber").exists())
     }
+
+    @Test
+    fun shouldReportCorrectFieldErrorWhenOnlyLastNameIsInvalid() {
+        // Ragnhild is valid, Bratli%% is invalid
+        val invalidJson = "{\"firstName\":\"Ragnhild\",\"lastName\":\"Bratli%%\",\"personalNumber\":\"12345678901\",\"email\":\"ragnhild.bratli@gmail.com\",\"registrationNumber\":\"AB12345\"}"
+
+        mockMvc.perform(post("/api/insurance-purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(invalidJson))
+                .andExpect(status().`is`(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.lastName").exists())
+                .andExpect(jsonPath("$.firstName").doesNotExist())
+    }
+
+    @Test
+    fun shouldAcceptNamesWithSpacesAndHyphens() {
+        val validJson = "{\"firstName\":\"Anne-Lise Marie\",\"lastName\":\"Nordmann-Hansen\",\"personalNumber\":\"12345678901\",\"email\":\"ola@nordmann.no\",\"registrationNumber\":\"AB12345\",\"bonus\":50}"
+        
+        val expectedResponse = PurchaseResponse("123", "SUCCESS", "OK")
+        given(purchaseService.purchaseInsurance(PurchaseRequest("Anne-Lise Marie", "Nordmann-Hansen", "12345678901", "ola@nordmann.no", "AB12345", 50))).willReturn(expectedResponse)
+
+        mockMvc.perform(post("/api/insurance-purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(validJson))
+                .andExpect(status().`is`(HttpStatus.CREATED.value()))
+    }
 }
